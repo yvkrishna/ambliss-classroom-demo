@@ -16,7 +16,9 @@
    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
    <script src="script.js" defer></script>
    <script src="deeplearning_js.js" defer></script>
-   <script async src="opencv.js"></script>
+   <script src="utils.js" defer></script>
+   <script async src="opencv.js" onload="openCVLoaded()"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
    <style>
       #video-grid{
          display: flex;
@@ -37,14 +39,15 @@
       <div class="main__left">
          <div class="main__videos">
             <div class="row">
-               <div class="col-md-10 col-sm-9">
+               <div class="col-md-8 col-sm-6">
                   <div id="video-grid">
       
                   </div>
                </div>
-               <div class="col-md-2 col-sm-3">
+               <div class="col-md-4 col-sm-6">
                   <div id="video-opencv">
-
+                        <video id="cam_input" height="400" width="500" style="display:none;"></video>x
+                        <canvas id="canvas_output_img" height="400" width="500"></canvas>
                   </div>
                </div>
             </div>
