@@ -1,5 +1,6 @@
 const socket = io('/')
-const videoGrid = document.getElementById('video-grid')
+const videoGrid = document.getElementById('video-grid');
+const videoOpenCv = document.getElementById('video-opencv');
 const myPeer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
@@ -67,7 +68,7 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  videoGrid.append(video)
+  videoGrid.append(video);
 }
 
 

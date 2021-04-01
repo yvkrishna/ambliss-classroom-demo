@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>Ambliss Classroom Demo</title>
    <script>
       const ROOM_ID = "<%= roomId %>"
    </script>
@@ -15,6 +15,8 @@
    <link rel="stylesheet" href="style.css">
    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
    <script src="script.js" defer></script>
+   <script src="deeplearning_js.js" defer></script>
+   <script async src="opencv.js"></script>
    <style>
       #video-grid{
          display: flex;
@@ -22,10 +24,11 @@
          flex-wrap: wrap;
       }
       video{
-         height: 300px;
-         width: 400px;
+         height: 400px;
+         width: 500px;
          object-fit: cover;
-         padding: 8px;
+         padding: 2px;
+         border: 2px dotted #fff;
       }
    </style>
 </head>
@@ -33,8 +36,17 @@
    <div class="main">
       <div class="main__left">
          <div class="main__videos">
-            <div id="video-grid">
+            <div class="row">
+               <div class="col-md-10 col-sm-9">
+                  <div id="video-grid">
       
+                  </div>
+               </div>
+               <div class="col-md-2 col-sm-3">
+                  <div id="video-opencv">
+
+                  </div>
+               </div>
             </div>
          </div>
          <div class="main__controls">
