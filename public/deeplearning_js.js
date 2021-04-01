@@ -50,7 +50,7 @@ async function openCVLoaded(){
             classifer.load(faceCascadeFile); // in the callback, load the cascade from file 
     });
 
-    const FPS = 24;
+    const FPS = 64;
     function processVideo() {
         let begin = Date.now();
         cap.read(src);
