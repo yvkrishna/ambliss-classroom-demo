@@ -79,10 +79,24 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
     if (video.networkState === video.NETWORK_LOADING) {
-        console.log("someone has network issue")// The user agent is actively trying to download data.
+      const html_err_msg = 
+      `
+      <span>someone is having network issue.</span>
+      <br>
+      `
+        var err_list = document.getElementById('error_list').innerHTML;
+        err_list = err_list + html_err_msg
+        console.log("someone is having network issue.")// The user agent is actively trying to download data.
     }
     
     if (video.readyState < video.HAVE_FUTURE_DATA) {
+      const html_err_msg = 
+      `
+      <span>There is not enough data to keep playing from this point.</span>
+      <br>
+      `
+        var err_list = document.getElementById('error_list').innerHTML;
+        err_list = err_list + html_err_msg
       console.log("There is not enough data to keep playing from this point")// There is not enough data to keep playing from this point
     }
     updateNumUsersInHome();
