@@ -4,9 +4,22 @@ var ctx = canvas.getContext('2d');
 
 async function openCVLoaded(){
     async function init(){
-        const model = await tf.loadLayersModel('https://ambliss-classroom-basic.herokuapp.com/model.json');
-        console.log("Loaded the model successfully");
-        return model
+        // try {
+        //   const model = await tf.loadLayersModel('http://localhost:3500/model.json');
+        //   console.log("Loaded the model successfully");
+        //   return model
+        // }
+        // catch(err) {
+        //   const model = await tf.loadLayersModel('https://ambliss-classroom-basic.herokuapp.com/model.json');
+        //   console.log("Loaded the model successfully");
+        //   return model
+        // }
+
+        const model = await tf.loadLayersModel('http://localhost:3800/model.json');
+          console.log("Loaded the model successfully");
+          console.log(model.summary())
+          return model
+
       }
       const face_expression_classifer = await init();
 
@@ -50,7 +63,7 @@ async function openCVLoaded(){
             classifer.load(faceCascadeFile); // in the callback, load the cascade from file 
     });
 
-    const FPS = 64;
+    const FPS = 100;
     function processVideo() {
         let begin = Date.now();
         cap.read(src);
@@ -81,6 +94,7 @@ async function openCVLoaded(){
                face_expression_classifer.predict(tensor).data()
                .then((predictions)=>{
                     var i = predictions.indexOf(Math.max(...predictions));
+                    console.log(predictions);
                     ctx.strokeStyle = "#fff";
                     ctx.strokeRect(face.x, face.y, face.width, face.height);
                     ctx.font = "30px Arial";

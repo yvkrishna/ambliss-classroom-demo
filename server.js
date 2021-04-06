@@ -13,6 +13,8 @@ const { v4: uuidV4 } = require('uuid')
 app.use('/peerjs', peerServer);
 
 app.use(express.static("tfjs_model"));
+app.use(express.static("tfjs_model_v3"));
+app.use(express.static("tfjs_model_v2"));
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -25,7 +27,7 @@ app.get('/:room', (req, res) => {
 })
 
 app.get('/model.json',function(req,res){
-	res.sendFile("/tfjs_model/model.json");
+	res.sendFile("/tfjs_model_v2/model.json");
 })
 
 io.on('connection', socket => {
@@ -44,4 +46,4 @@ io.on('connection', socket => {
   })
 })
 
-server.listen(process.env.PORT||3500)
+server.listen(process.env.PORT||3800)
