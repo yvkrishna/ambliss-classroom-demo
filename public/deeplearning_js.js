@@ -15,11 +15,10 @@ async function openCVLoaded(){
         //   return model
         // }
 
-        const model = await tf.loadLayersModel('http://localhost:3800/model.json');
+        const mobilenet = await tf.loadLayersModel('http://localhost:3800/model.json');
           console.log("Loaded the model successfully");
-          console.log(model.summary())
-          return model
-
+          console.log(mobilenet.summary())
+          return mobilenet
       }
       const face_expression_classifer = await init();
 

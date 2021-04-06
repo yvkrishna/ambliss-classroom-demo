@@ -13,6 +13,8 @@ const { v4: uuidV4 } = require('uuid')
 app.use('/peerjs', peerServer);
 
 app.use(express.static("tfjs_model"));
+app.use(express.static("tfjs_model_v5/content/tfjs_model_v5"));
+app.use(express.static("tfjs_model_v4"));
 app.use(express.static("tfjs_model_v3"));
 app.use(express.static("tfjs_model_v2"));
 app.set('view engine', 'ejs')
@@ -26,8 +28,12 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
 
+app.get('/load_model.json',function(req,res){
+	res.sendFile("/tfjs_model_v5/content/tfjs_model_v5/model.json");
+})
+
 app.get('/model.json',function(req,res){
-	res.sendFile("/tfjs_model_v2/model.json");
+	res.sendFile("/tfjs_model_v5/content/tfjs_model_v5/model.json");
 })
 
 io.on('connection', socket => {
@@ -46,4 +52,4 @@ io.on('connection', socket => {
   })
 })
 
-server.listen(process.env.PORT||3800)
+server.listen(process.env.PORT||4080)

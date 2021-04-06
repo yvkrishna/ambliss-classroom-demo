@@ -33,7 +33,7 @@ navigator.mediaDevices.getUserMedia({
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
       if(user_name != undefined){
-        socket.emit('message', text.val());
+        socket.emit('message', {usr:{user_name}, msg:text.val()});
         text.val('')
       }else{
         var popup_btn = document.getElementById("popup_msg");
@@ -44,7 +44,14 @@ navigator.mediaDevices.getUserMedia({
     }
   });
   socket.on("createMessage", message => {
-    $("ul").append(`<li class="message"><b>${user_name || "user"}</b><br/>${message}</li>`);
+    var html_li_chat;
+    console.log(message.usr)
+    if(message.usr==user_name){
+      html_li_chat = `<li class="list-group-item list-group-item-info"><b>${message.usr}</b><br/>${message.msg}</li>`
+    }else{
+      html_li_chat = `<li class="list-group-item list-group-item-warning"><b>${message.usr}</b><br/>${message.msg}</li>`
+    }
+    $("ul").append(html_li_chat);
     scrollToBottom()
   })
 })
