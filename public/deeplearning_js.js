@@ -4,7 +4,7 @@ var ctx = canvas.getContext('2d');
 
 async function openCVLoaded(){
     async function init(){
-        const model = await tf.loadLayersModel('http://localhost:3500/model.json');
+        const model = await tf.loadLayersModel('https://ambliss-classroom-basic.herokuapp.com/model.json');
         console.log("Loaded the model successfully");
         return model
       }
