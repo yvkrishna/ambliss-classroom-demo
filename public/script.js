@@ -1,5 +1,6 @@
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
+var user_name = undefined;
 const myPeer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
@@ -27,16 +28,23 @@ navigator.mediaDevices.getUserMedia({
     connectToNewUser(userId, stream)
   })
   // input value
-  let text = $("input");
+  let text = $("#chat_message");
   // when press enter send message
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
-      socket.emit('message', text.val());
-      text.val('')
+      if(user_name != undefined){
+        socket.emit('message', text.val());
+        text.val('')
+      }else{
+        var popup_btn = document.getElementById("popup_msg");
+        popup_btn.click();
+        takeUserName("Please enter your name before sending any messages.");
+      }
+      
     }
   });
   socket.on("createMessage", message => {
-    $("ul").append(`<li class="message"><b>user</b><br/>${message}</li>`);
+    $("ul").append(`<li class="message"><b>${user_name || "user"}</b><br/>${message}</li>`);
     scrollToBottom()
   })
 })
@@ -62,12 +70,59 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call
 }
 
+function getUserName(){
+  return user_name;
+}
+
 function addVideoStream(video, stream) {
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
+    if (video.networkState === video.NETWORK_LOADING) {
+        console.log("someone has network issue")// The user agent is actively trying to download data.
+    }
+    
+    if (video.readyState < video.HAVE_FUTURE_DATA) {
+      console.log("There is not enough data to keep playing from this point")// There is not enough data to keep playing from this point
+    }
+    updateNumUsersInHome();
   })
+  const br = document.createElement('br')
   videoGrid.append(video)
+  videoGrid.append(br)
+}
+
+function updateNumUsersInHome(){
+  var numUsers = document.querySelectorAll('video').length - 1;
+  document.getElementById("numPeople").innerText = numUsers;
+}
+
+
+window.onload = function() {
+  var popup_btn = document.getElementById("popup_msg");
+  popup_btn.click();
+  takeUserName("Please Enter Your Name");
+};
+
+function takeUserName(alertMsg){
+  const html_value = `
+  <div class="alert alert-success" role="alert">
+     ${alertMsg}
+  </div>
+  <div class="form-group">
+     <label for="name">Name</label>
+     <input type="text" class="form-control" id="name" placeholder="Your Name">
+  </div>
+  <br>
+  <button type="button" class="btn btn-primary" onclick="saveName()" data-dismiss="modal">Save</button>
+  `
+  document.querySelector('#modalBody').innerHTML = html_value;
+  document.querySelector('#exampleModalLongTitle').innerHTML = "AmBliss Video Calling DemoApp"
+}
+
+function saveName(){
+  user_name = document.querySelector('#name').value;
+  document.getElementById("usr_name").innerHTML = user_name
 }
 
 
@@ -103,32 +158,40 @@ const playStop = () => {
 
 const setMuteButton = () => {
   const html = `
+  <button type="button" class="btn btn-primary">
     <i class="fas fa-microphone"></i>
     <span>Mute</span>
+    </button>
   `
   document.querySelector('.main__mute_button').innerHTML = html;
 }
 
 const setUnmuteButton = () => {
   const html = `
-    <i class="unmute fas fa-microphone-slash"></i>
-    <span>Unmute</span>
+    <button type="button" class="btn btn-primary">
+      <i class="unmute fas fa-microphone-slash"></i>
+      <span>Unmute</span>
+    </button>
   `
   document.querySelector('.main__mute_button').innerHTML = html;
 }
 
 const setStopVideo = () => {
   const html = `
+  <button type="button" class="btn btn-primary">
     <i class="fas fa-video"></i>
     <span>Stop Video</span>
+    </button>
   `
   document.querySelector('.main__video_button').innerHTML = html;
 }
 
 const setPlayVideo = () => {
   const html = `
-  <i class="stop fas fa-video-slash"></i>
+  <button type="button" class="btn btn-primary">
+    <i class="stop fas fa-video-slash"></i>
     <span>Play Video</span>
+  </button>
   `
   document.querySelector('.main__video_button').innerHTML = html;
 }

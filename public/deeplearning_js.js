@@ -4,7 +4,7 @@ var ctx = canvas.getContext('2d');
 
 async function openCVLoaded(){
     async function init(){
-        const model = await tf.loadLayersModel('https://ambliss-classroom-basic.herokuapp.com/model.json');
+        const model = await tf.loadLayersModel('http://localhost:3500/model.json');
         console.log("Loaded the model successfully");
         return model
       }
@@ -25,7 +25,7 @@ async function openCVLoaded(){
             var $this = this; //cache
             (function loop() {
               if (!$this.paused && !$this.ended) {
-                ctx.drawImage($this, 0, 0, 500,400);
+                ctx.drawImage($this, 0, 0, 400,300);
                 setTimeout(loop, 1000 / 30); // drawing at 30fps
               }
             })();
@@ -77,7 +77,7 @@ async function openCVLoaded(){
                .toFloat()
                .expandDims();
 
-               tensor =  tensor.div(255);
+               tensor = tensor.div(255);
                face_expression_classifer.predict(tensor).data()
                .then((predictions)=>{
                     var i = predictions.indexOf(Math.max(...predictions));
