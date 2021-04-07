@@ -33,7 +33,7 @@ navigator.mediaDevices.getUserMedia({
   $('html').keydown(function (e) {
     if (e.which == 13 && text.val().length !== 0) {
       if(user_name != undefined){
-        socket.emit('message', {usr:{user_name}, msg:text.val()});
+        socket.emit('message', {usr:user_name, msg:text.val()});
         text.val('')
       }else{
         var popup_btn = document.getElementById("popup_msg");
