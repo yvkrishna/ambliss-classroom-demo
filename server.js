@@ -52,4 +52,6 @@ io.on('connection', socket => {
   })
 })
 
-server.listen(process.env.PORT||4080)
+server.listen(process.env.PORT||4080, function(){
+  console.log("server started")
+})
