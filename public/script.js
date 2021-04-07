@@ -6,6 +6,7 @@ const myPeer = new Peer(undefined, {
   host: '/',
   port: '443'
 })
+console.log("inside script")
 let myVideoStream;
 const myVideo = document.createElement('video')
 myVideo.muted = true;
@@ -45,7 +46,6 @@ navigator.mediaDevices.getUserMedia({
   });
   socket.on("createMessage", message => {
     var html_li_chat;
-    console.log(message.usr)
     if(message.usr==user_name){
       html_li_chat = `<li class="list-group-item list-group-item-info"><b>${message.usr}</b><br/>${message.msg}</li>`
     }else{
